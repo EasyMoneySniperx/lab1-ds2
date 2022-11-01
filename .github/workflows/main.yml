@@ -1,0 +1,39 @@
+name: lab1-ds2
+
+on:
+  push:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      - name: Run get update
+        run: sudo apt-get update
+        
+      - name: Run get upgrade
+        run: sudo apt-get upgrade
+        
+      - name: Install node modules
+        run: npm install
+        
+      - name: Run tests
+        run: npm test        
+
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: 6141b162-8ed7-439c-8ac1-fed27528efc1
+          heroku_app_name: "lab1-ds" 
+          heroku_email: "juan.jose.revelo@correounivalle.edu.co"
+          remote_branch: "main"
